@@ -1,1 +1,1 @@
-__all__ = ["paradigm"]
+__all__ = ["paradigm", "needleman"]
