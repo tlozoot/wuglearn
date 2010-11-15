@@ -4,26 +4,30 @@
 
 import sys
 
+def make_pair(pair):
+  word, prob = pair
+  return (Form(word), prob)
+
 class Paradigm:
   
-  def __init__(self, form1, form2):
-    self.forms = map(self.convert_form, (form1, form2))
+  def __init__(self, base, *derivatives):
+    self.base = Form(base)
+    self.derivatives = map(make_pair, derivatives)
       
   def convert_form(self, form):
     return map(lambda s: Syllable(s), form.split('.'))
-  
-  def form1():
-    return forms[0]
-  
-  def form2():
-    return forms[1]
-      
+
+class Form:
+  def __init__(self, form):
+    # Syllabify function!
+    # Get syllables somehow...
+    self.syllables = map(lambda s, x: Syllable(s, x), [(syll1, stress1), (syll2, stress2), (syll3, stress3)])
 
 # Contains a list of segments, and stress
 class Syllable:
-  def __init__(self, syll):
-    self.segments = syll
-    self.stress = "heavy"
+  def __init__(self, segments, stress):
+    self.segments = segments
+    self.stress = stress
   
 # Reads in attributes from a .features file, to be specified eventually
 class Segment:
