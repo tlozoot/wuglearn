@@ -6,6 +6,7 @@
 # print "get_value:", feature.get_value(u'ŋ', 'voice')
 # print "get_hash:", feature.get_hash(u'ŋ')
 # print "get_array:", feature.get_array(u'ŋ')
+# print "similarity:", feature.similarity(u'ŋ', u'n')
 
 # Avoid calling FEATURES[segment][feature] directly--this implementation change!
 
@@ -31,6 +32,19 @@ for row in feature_rows:
   FEATURES[unicode(clean_record(ipa), 'utf8')] = item_features
 
 
+#### VECTOR OPERATIONS ####
+# To be moved to another file, or better, to be obtained from some library
+def dot_prod(vec1, vec2):
+  # print vec1, vec2
+  return sum(map(lambda x: x[0] * x[1], zip(vec1, vec2)))
+
+def magnitude(vec):
+  return sum(map(lambda x: x **2, vec)) ** 0.5
+
+def cosine_sim(vec1, vec2):
+  return dot_prod(vec1, vec2) / (magnitude(vec1) * magnitude(vec2))
+  
+
 #### PUBLIC FUNCTIONS ####
 
 def get_value(segment, feature):
@@ -42,3 +56,14 @@ def get_hash(segment):
 # A feature array, sorted alphabetically by name of the feature
 def get_array(segment):
   return map(lambda x: x[1], sorted(FEATURES[segment].items()))
+  
+# Returns the similarity of two segments (!)
+# TODO: Weight importance of features! ŋ~n SHOULD NOT = ŋ~k
+def similarity(seg1, seg2):
+  return cosine_sim(get_array(seg1), get_array(seg2))
+  
+  
+  
+  
+  
+  

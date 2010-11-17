@@ -12,22 +12,22 @@ class Constraint:
 # FAITHFULNESS CONSTRAINTS
 
 def id_voice_s1(form1, form2):
-  pass
+  return 0
   
 def id_voice_root(form1, form2):
-  pass
+  return 0
 
 def id_voice_affix(form1, form2):
-  pass
+  return 0
   
   
   
 # MARKEDNESS CONSTRAINTS
 
 def no_long_vowels(form):
-  pass
+  return 0
 
 def no_long_vowels_before_f(form):
-  pass
+  return 0
   
 
