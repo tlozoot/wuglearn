@@ -6,8 +6,11 @@ from segment import Segment
 
 class Paradigm:
   '''A paradigm consists of a base form and a list of derivatives (accepted as pairs)'''
-  def __init__(self, base, derivatives):
+  '''Also some metadata, such as orthography and frequency'''
+  def __init__(self, base, derivatives, ortho=None, freq=None):
     self.base = Form(base)
+    self.ortho = ortho
+    self.freq = freq
     self.derivatives = map(lambda d: Derivative(d[0], d[1]), derivatives)
     
   def best_derivative(self):

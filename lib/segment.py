@@ -3,7 +3,6 @@
 #### SEGMENT.PY ######
 # Preferred usage is OO-style:
 # engma = Segment(u'ŋ'); n = Segment(u'n'); k =  Segment(u'k')
-# 
 # print "Array of /n/:", n.array()
 # print "Hash of /k/:", k.hash()
 # print "Voiciness of /ŋ/:", engma.feature('voice')
