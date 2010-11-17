@@ -1,9 +1,9 @@
 import paradigm
 
 # Try:
-# knife = paradigm.Form('naif')
-# knives = paradigm.Form('naivz')
-# print "alignment of knife and knives:", alignment.align_forms(knife, knives)
+# knife = Form('naif')
+# knives = Form('naivz')
+# print "Alignment of /naif/ and /naivz/:", alignment.align_forms(knife, knives)
 
 ### PUBLIC FUNCTIONS ###
 

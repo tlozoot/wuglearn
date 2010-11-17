@@ -3,15 +3,21 @@
 import re
 import alignment
 
-# A paradigm consists of a base form, and then pairs of derivatives (Form, probability)
 class Paradigm:
-  def __init__(self, base, *derivatives):
+  '''A paradigm consists of a base form and a list of derivatives (accepted as pairs)'''
+  def __init__(self, base, derivatives):
     self.base = Form(base)
+    self.derivatives = map(lambda d: Derivative(d[0], d[1]), derivatives)
     
-    def make_pair(pair):
-      word, prob = pair
-      return (Form(word), prob)
-    self.derivatives = map(make_pair, derivatives)
+  def best_derivative(self):
+    return max(self.derivatives, key = lambda x: x.prob)
+
+class Derivative:
+  '''A derivative has a Form and a probability'''
+  def __init__(self, form, prob):
+    self.probability = prob
+    self.prob = prob
+    self.form = Form(form)
 
 # A form is just a list of syllables
 class Form:
