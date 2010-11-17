@@ -25,6 +25,7 @@ class Syllable:
   def __init__(self, segments, stress):
     self.segments = segments
     self.stress = stress
+    # At some point, we want to split up syllables into segments in some smart way
     
     
 #### FEATURES!!!
