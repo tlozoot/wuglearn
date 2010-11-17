@@ -26,27 +26,3 @@ class Syllable:
     self.segments = segments
     self.stress = stress
     # At some point, we want to split up syllables into segments in some smart way
-    
-    
-#### FEATURES!!!
-
-# A function to strip quotes and whitespace
-def clean_record(rec):
-  return re.sub('"', '', rec).strip()
-
-# Get the file into a row of columns
-feature_rows = map(lambda row: row.split(','), open('features.csv').readlines())
-for row in feature_rows: row.pop(0) # get rid of unwanted rows
-
-# Get the names of the features into an array
-feature_names = map(lambda x: clean_record(x), feature_rows.pop(0))
-
-# Initialize the hash of every feature
-FEATURES = {}
-for row in feature_rows:
-  ipa = row.pop(0)     # Your symbol should be the first element of the row
-  item_features = {}   # Create a hash for each feature
-  for i in range(len(row)): item_features[feature_names[i+1]] = int(row[i])
-  FEATURES[unicode(clean_record(ipa), 'utf8')] = item_features
-  
-  
