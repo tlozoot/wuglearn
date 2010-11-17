@@ -1,1 +1,1 @@
-__all__ = ["paradigm", "segment", "constraint", "alignment"]
+__all__ = ["paradigm", "segment", "constraint", "alignment", "wug"]

@@ -6,12 +6,20 @@
 class Constraint:
   def __init__(self, func):
     self.func = func
+    self.scores = []
+  
+  def avg_score(self):
+    return sum(scores) / len(scores)
+    
     
   
   
 # FAITHFULNESS CONSTRAINTS
 
 def id_voice_s1(form1, form2):
+  return 0
+
+def id_voice_stressed(form1, form2):
   return 0
   
 def id_voice_root(form1, form2):
@@ -29,5 +37,3 @@ def no_long_vowels(form):
 
 def no_long_vowels_before_f(form):
   return 0
-  
-

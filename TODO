@@ -10,6 +10,10 @@ SOONER:
 		- How does it work in Python?
 
 
+	Function composition
+	
+	Empty string for segments, not None
+
 LATER:
 
 	Better alignment

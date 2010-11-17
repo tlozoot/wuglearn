@@ -2,12 +2,12 @@
 
 #### SEGMENT.PY ######
 # Preferred usage is OO-style:
-# engma = Segment(u'ŋ'); n = Segment(u'n'); k =  Segment(u'k')
+# engma = Segment(u'ŋ'); n = Segment(u'n'); k = Segment(u'k')
 # print "Array of /n/:", n.array()
 # print "Hash of /k/:", k.hash()
 # print "Voiciness of /ŋ/:", engma.feature('voice')
 # print "Similarity of /ŋ/ and /n/:", engma.similarity(n)
-# print "Similarity of /ŋ/ and /k/--yikes!", engma.similarity(k)
+# print "Similarity of /ŋ/ and /k/--yikes!", engma.similarity(k), "\n"
 
 # But you can still use get_feature, get_hash, get_array, etc
 # Avoid calling FEATURES[segment][feature] directly--this implementation change!

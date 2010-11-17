@@ -3,6 +3,7 @@
 import re
 import alignment
 from segment import Segment
+from form import Form
 
 class Paradigm:
   '''A paradigm consists of a base form and a list of derivatives (accepted as pairs)'''
@@ -23,15 +24,6 @@ class Derivative:
     self.prob = prob
     self.form = Form(form)
 
-# A form is just a list of syllables
-class Form:
-  def __init__(self, form):
-    self.word = form # to be replaced by stuff below this!
-    # We need a syllabify function...
-    # self.syllables = map(lambda s, x: Syllable(s, x), [(syll1, stress1), (syll2, stress2), (syll3, stress3)])
-  
-  def segments(self):
-    return map(lambda s: Segment(s), list(self.word))
 
 # A syllable is a list of segments, with stress
 class Syllable:
