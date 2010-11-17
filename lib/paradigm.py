@@ -2,6 +2,7 @@
 
 import re
 import alignment
+from segment import Segment
 
 class Paradigm:
   '''A paradigm consists of a base form and a list of derivatives (accepted as pairs)'''
@@ -10,7 +11,7 @@ class Paradigm:
     self.derivatives = map(lambda d: Derivative(d[0], d[1]), derivatives)
     
   def best_derivative(self):
-    return max(self.derivatives, key = lambda x: x.prob)
+    return max(self.derivatives, key = lambda x: x.prob).form
 
 class Derivative:
   '''A derivative has a Form and a probability'''
@@ -27,7 +28,7 @@ class Form:
     # self.syllables = map(lambda s, x: Syllable(s, x), [(syll1, stress1), (syll2, stress2), (syll3, stress3)])
   
   def segments(self):
-    return list(self.word)
+    return map(lambda s: Segment(s), list(self.word))
 
 # A syllable is a list of segments, with stress
 class Syllable:

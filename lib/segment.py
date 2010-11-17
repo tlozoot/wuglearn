@@ -53,8 +53,8 @@ def get_array(segment):
 def similarity(seg1, seg2):
   '''The cosine similarity of two segments
       TODO: Weight importance of features! ŋ~n SHOULD NOT = ŋ~k '''
-  return vector.cosine_sim(get_array(seg1), get_array(seg2))
-  
+  if seg1 and seg2:
+    return round(vector.cosine_sim(get_array(seg1), get_array(seg2)), 2)
 
 class Segment:
   '''Some objects, if you like'''
@@ -73,6 +73,14 @@ class Segment:
     
   def similarity(self, segment):
     return similarity(self.ipa, segment.ipa)
+
+def try_ipa(seg):
+  '''Turn a Segment object back into a string, but return None if its None'''
+  try:
+    return seg.ipa
+  except AttributeError:
+    return None
+
   
   
   
