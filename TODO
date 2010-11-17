@@ -1,1 +1,37 @@
-1) Implement Levenshtein or Needleman-Wunsch
+SOONER:
+
+	The learner!
+		- Parsing a text file
+		- Writing some nice constraints
+		- Eval
+		etc...
+
+
+LATER:
+
+	Better alignment
+		- Use a library like nw_help
+		- Custom alignment?
+		- Use segment similarity?
+
+	Better segment similarity
+		- Weight features
+	
+	Syllabification
+	
+	Stats
+		- For analyzing data
+		- For generating losers, weighting constraints
+
+
+WAY LATER:
+
+	Support for irregular plurals
+	
+	Constraint ranking algorithms
+	
+	Discover how words change--stemming+ with OT
+		UR of affix...?
+		Targeted constraints?
+		
+	Learning Markedness constraints
