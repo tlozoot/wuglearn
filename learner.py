@@ -25,4 +25,8 @@ cuff = Paradigm(u'kʌf', [(u'kʌvz', 0.1), (u'kʌfs', 0.9)])
 reef = Paradigm('rif', [('rivz', 0.1), ('rifs', 0.9)])
 waf = Wug('waf')
 
-print map(lambda x: x.ipa_string(), map(add_z, map(lambda x: x.base, [knife, cuff, reef, waf])))
+word_list = [knife, cuff, reef, waf]
+
+# print map(lambda x: add_z(x.base).ipa_string(), word_list)
+
+print alignment.align_forms_with_scores(knife.base, cuff.base)

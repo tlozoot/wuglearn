@@ -1,5 +1,5 @@
 import paradigm
-import segment
+import segment as seg
 
 # Try:
 # knife = Paradigm('naif', [('naivz', 0.9), ('naifs', 0.1)], ortho='knife', freq=2000)
@@ -21,9 +21,9 @@ def align(form1, form2):
       zipped.append( (form1[i], form2[i]) )
     except IndexError:
       if longer == form1:
-        zipped.append( (form1[i], None) )
+        zipped.append( (form1[i], seg.Segment('')) )
       else:
-        zipped.append( (None, form2[i]) )
+        zipped.append( (seg.Segment(''), form2[i]) )
   return zipped
 
 def align_forms(form1, form2):
@@ -32,11 +32,11 @@ def align_forms(form1, form2):
   
 def align_forms_with_ipa(form1, form2):
   '''Like align forms, but give back IPA strings instead of segment objects'''
-  return map(lambda p: tuple(map(segment.try_ipa, (p[0], p[1]))), align_forms(form1, form2))
+  return map(lambda p: tuple(map(lambda x: x.ipa, (p[0], p[1]))), align_forms(form1, form2))
 
 def align_forms_with_scores(form1, form2):
   '''Like align_forms, but give back an array of scores instead'''
-  return map(lambda p: segment.similarity(segment.try_ipa(p[0]), segment.try_ipa(p[1])), align_forms(form1, form2))
+  return map(lambda p: seg.similarity(*p), align_forms(form1, form2))
   
   
   

@@ -25,6 +25,9 @@ for row in feature_rows: row.pop(0) # get rid of unwanted rows
 
 # Get the names of the features into an array
 feature_names = map(lambda x: clean_record(x), feature_rows.pop(0))
+blank_row = [0 if i > 0 else '' for i in range(len(feature_names))]
+
+feature_rows.append(blank_row)
 
 # Initialize the hash of every feature
 FEATURES = {}
@@ -34,7 +37,6 @@ for row in feature_rows:
   for i in range(len(row)): item_features[feature_names[i+1]] = int(row[i])
   FEATURES[unicode(clean_record(ipa), 'utf8')] = item_features
   
-
 #### PUBLIC FUNCTIONS ####
 
 def get_feature(segment, feature):
@@ -53,7 +55,7 @@ def similarity(seg1, seg2):
   '''The cosine similarity of two segments
       TODO: Weight importance of features! ŋ~n SHOULD NOT = ŋ~k '''
   if seg1 and seg2:
-    return round(vector.cosine_sim(get_array(seg1), get_array(seg2)), 2)
+    return vector.cosine_sim(seg1.array(), seg2.array())
 
 class Segment:
   '''Some objects, if you like'''
@@ -72,13 +74,6 @@ class Segment:
     
   def similarity(self, segment):
     return similarity(self.ipa, segment.ipa)
-
-def try_ipa(seg):
-  '''Turn a Segment object back into a string, but return None if its None'''
-  try:
-    return seg.ipa
-  except AttributeError:
-    return None
 
   
   
