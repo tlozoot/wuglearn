@@ -12,7 +12,7 @@ class Paradigm:
     self.base = Form(base)
     self.ortho = ortho
     self.freq = freq
-    self.derivatives = map(lambda d: Derivative(d[0], d[1]), derivatives)
+    self.derivatives = map(lambda d: Derivative(*d), derivatives)
     
   def best_derivative(self):
     return max(self.derivatives, key = lambda x: x.prob).form
