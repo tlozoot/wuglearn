@@ -23,10 +23,15 @@ change_set = set([add_s, add_z])
 knife = Paradigm('naif', [('naivz', 0.9), ('naifs', 0.1)])
 cuff = Paradigm(u'kʌf', [(u'kʌvz', 0.1), (u'kʌfs', 0.9)])
 reef = Paradigm('rif', [('rivz', 0.1), ('rifs', 0.9)])
+giraffe = Paradigm(u'ʤɪɹæf', [(u'ʤɪɹæfs', 0.5), (u'ʤɪɹævz', 0.5)])
+eighteenth = Paradigm(u'eɪtinθ', [(u'eɪtinθs', 0.8), (u'eɪtinðz', 0.2)])
 waf = Wug('waf')
 
 word_list = [knife, cuff, reef, waf]
 
 # print map(lambda x: add_z(x.base).ipa_string(), word_list)
-
 print alignment.align_forms_with_scores(knife.base, cuff.base)
+
+print eighteenth.base.sonority()
+
+print eighteenth.base.syllables()

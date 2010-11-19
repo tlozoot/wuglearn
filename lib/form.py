@@ -15,3 +15,21 @@ class Form:
   def ipa_string(self):
     return ''.join(map(lambda x: x.ipa, self.segments()))
   
+  def sonority(self):
+  	return map(lambda x: x.sonority(), self.segments())
+  	
+  def syllables(self):
+  	sylls = []
+  	sylls.append([self.segments()[0]])
+
+  	for x in range(1,len(self.segments())-1):
+  	  if self.segments()[x-1].sonority() <  self.segments()[x].sonority():
+  	    sylls[len(sylls)-1].append(self.segments()[x])
+  	  else:
+  	    if self.segments()[x].sonority() >  self.segments()[x+1].sonority(): 
+  	      sylls[len(sylls)-1].append(self.segments()[x])
+  	    else:
+  	      sylls.append([self.segments()[x].sonority()])
+  	sylls[len(sylls)-1].append(self.segments()[len(self.segments())-1])
+
+	return sylls

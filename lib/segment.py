@@ -74,6 +74,21 @@ class Segment:
     
   def similarity(self, segment):
     return similarity(self.ipa, segment.ipa)
+    
+  def sonority(self):
+  	s = 0;
+  	if self.feature("voice")==1: s = s+1
+  	if self.feature("continuant")==1: s = s+2
+	if self.feature("sonorant")==1: s = s+5
+	
+	if self.feature("consonantal")==-1: 
+		s = 10
+		if self.feature("high")==-1: s=s+1 
+		if self.feature("low")==1: s=s+1 
+	return s
+  	
+  	
+  	
 
   
   
