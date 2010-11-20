@@ -29,7 +29,8 @@ class Form:
   	    if self.segments()[x].sonority() >  self.segments()[x+1].sonority(): 
   	      sylls[len(sylls)-1].append(self.segments()[x])
   	    else:
-  	      sylls.append([self.segments()[x].sonority()])
+  	      sylls.append([self.segments()[x]])
+  	      
   	sylls[len(sylls)-1].append(self.segments()[len(self.segments())-1])
 
 	return sylls
