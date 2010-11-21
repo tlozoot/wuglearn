@@ -1,5 +1,8 @@
-#! /usr/bin/python
-# coding=utf8
+#! /usr/bin/env python
+# coding=utf-8
+
+import sys
+print "Your terminal's encoding:", sys.stdout.encoding
 
 # See what this imports with help(lib)
 from lib import *
@@ -27,11 +30,14 @@ giraffe = Paradigm(u'ʤɪɹæf', [(u'ʤɪɹæfs', 0.5), (u'ʤɪɹævz', 0.5)])
 eighteenth = Paradigm(u'eɪtinθ', [(u'eɪtinθs', 0.8), (u'eɪtinðz', 0.2)])
 waf = Wug('waf')
 
-word_list = [knife, cuff, reef, waf]
+word_list = [knife, cuff, reef, waf, giraffe, eighteenth]
 
 # print map(lambda x: add_z(x.base).ipa_string(), word_list)
 print alignment.align_forms_with_scores(knife.base, cuff.base)
 
 print eighteenth.base.sonority()
 
-print eighteenth.base.syllables()
+print map(lambda x: map(lambda y: y.to_print(), x), eighteenth.base.syllables())
+
+for c in list(giraffe.base.segments()):
+  print c.to_print(),

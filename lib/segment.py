@@ -62,6 +62,9 @@ class Segment:
   
   def __init__(self, ipa):
     self.ipa = ipa
+    
+  def to_print(self):
+    return self.ipa.encode('utf-8')
   
   def hash(self):
     return get_hash(self.ipa)
