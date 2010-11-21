@@ -31,13 +31,22 @@ giraffe = Paradigm(u'ʤɪɹæf', [(u'ʤɪɹæfs', 0.5), (u'ʤɪɹævz', 0.5)])
 eighteenth = Paradigm(u'eɪtinθ', [(u'eɪtinθs', 0.8), (u'eɪtinðz', 0.2)])
 waf = Wug('waf')
 
-word_list = [knife, cuff, reef, waf, giraffe, eighteenth]
+word_list = [knife, cuff, reef, giraffe, eighteenth]
 
-print alignment.align_forms_with_scores(knife.base, knife.best_derivative())
+for paradigm in word_list:
+  derivs = map(lambda x: x.form, paradigm.derivatives)
+  print "Analyzing word", paradigm.base.ipa_string()
+  print "Faithfulness constraints:"
+  for con in cons.faithfuls:
+    print con.__name__
+    for form in derivs:
+      print form.ipa_string(), con(paradigm.base, form)
+  print "Markedness constraints:"
+  for con in cons.markeds:
+    print con.__name__
+    for form in derivs:
+      print form.ipa_string(), con(form)
 
-print eighteenth.base.sonority()
-
-print map(lambda x: map(lambda y: y.to_print(), x), eighteenth.base.syllables())
-
-for c in list(giraffe.base.segments()):
-  print c.to_print(),
+# We need to fix syllabification    
+print [ map(lambda x: x.ipa, p) for p in knife.best_derivative().syllables()]
+print knife.best_derivative().sonority()
