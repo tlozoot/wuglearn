@@ -32,16 +32,11 @@ def align_forms(form1, form2):
   
 def align_forms_with_ipa(form1, form2):
   '''Like align forms, but give back IPA strings instead of segment objects'''
-  new_forms = []
-  for alignment in align_forms(form1, form2):
-    new_forms.append(map(lambda x: tuple(map(lambda y: y.ipa, x)), alignment))
-  return new_forms
-
-  # return map(lambda p: tuple(map(lambda x: x.ipa, (p[0], p[1]))), align_forms(form1, form2))
+  return [ [ tuple(map(lambda s: s.ipa, p)) for p in a ] for a in align_forms(form1, form2) ]
 
 def align_forms_with_scores(form1, form2):
   '''Like align_forms, but give back an array of scores instead'''
-  return map(lambda x: map(lambda p: seg.similarity(*p), x), align_forms(form1, form2))
+  return [ [ seg.similarity(*p) for p in a ] for a in align_forms(form1, form2) ]
   
   
   

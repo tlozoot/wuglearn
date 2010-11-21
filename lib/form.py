@@ -16,7 +16,7 @@ class Form:
     return ''.join(map(lambda x: x.ipa, self.segments()))
   
   def sonority(self):
-  	return map(lambda x: x.sonority(), self.segments())
+    return map(lambda x: x.sonority(), self.segments())
   	
   def syllables(self):
   	sylls = []
@@ -32,5 +32,4 @@ class Form:
   	      sylls.append([self.segments()[x]])
   	      
   	sylls[len(sylls)-1].append(self.segments()[len(self.segments())-1])
-
-	return sylls
+  	return sylls
