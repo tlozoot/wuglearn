@@ -33,7 +33,7 @@ waf = Wug('waf')
 word_list = [knife, cuff, reef, waf, giraffe, eighteenth]
 
 # print map(lambda x: add_z(x.base).ipa_string(), word_list)
-print alignment.align_forms_with_scores(knife.base, cuff.base)
+print alignment.align_forms_with_ipa(knife.base, knife.best_derivative())
 
 print eighteenth.base.sonority()
 
