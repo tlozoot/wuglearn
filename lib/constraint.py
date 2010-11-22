@@ -42,7 +42,7 @@ def agree_voice(form):
   segs = form.segments()
   score = 0
   for i in range(len(segs) - 1):
-    if segs[i].feature('voice') != segs[i].feature('voice'):
+    if segs[i].feature('voice') != segs[i + 1].feature('voice'):
       score += 1
   return score
 
