@@ -32,7 +32,7 @@ giraffe = Paradigm(u'ʤɪɹæf', [(u'ʤɪɹæfs', 0.4), (u'ʤɪɹævz', 0.6)])
 eighteenth = Paradigm(u'eɪtinθ', [(u'eɪtinθs', 0.8), (u'eɪtinðz', 0.2)])
 waf = Wug('waf')
 
-word_list = [leaf, reef, giraffe, cuff]
+word_list = [leaf, reef, giraffe, cuff, eighteenth]
 
 print "\n\nFaithfulness constraints:".upper()
 for con in cons.faithfuls:

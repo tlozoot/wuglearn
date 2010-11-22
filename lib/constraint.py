@@ -46,11 +46,29 @@ def agree_voice(form):
   return score
 
 def no_long_vowels(form):
-  return 0
+  segs = form.segments()
+  score = 0
+  for i in range(len(segs)):
+    if segs[i].feature('consonantal')==-1 and (segs[i].feature('tense')==1 or segs[i].feature('low')==1):
+      score += 1
+  return score
 
 def no_long_vowels_before_f(form):
-  return 0
-  
+  segs = form.segments()
+  score = 0
+  seen_V = 0
+  for i in range(len(segs)):
+    if segs[i].feature('consonantal')==-1 and (segs[i].feature('tense')==1 or segs[i].feature('low')==1):
+      seen_V = 1
+    if seen_V==1 and segs[i].feature('continuant')==1 and segs[i].feature('sonorant')==-1 and segs[i].feature('voice')==-1:
+      score += 1
+    if segs[i].feature('sonorant')==-1:
+      seen_V = 0
+  return score
+
+
+
+
 # CONSTRAINT LISTS
 faithfuls = map(lambda x: Constraint(x), [id_voice_s1, id_voice_stressed, id_voice_root, id_voice_affix])
 markeds = map(lambda x: Constraint(x), [agree_voice, no_long_vowels, no_long_vowels_before_f])
