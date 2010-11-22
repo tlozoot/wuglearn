@@ -2,7 +2,7 @@
 # coding=utf-8
 
 import sys
-print "Your terminal's encoding:", sys.stdout.encoding
+# print "Your terminal's encoding:", sys.stdout.encoding
 
 # See what this imports with help(lib)
 from lib import *
@@ -25,28 +25,36 @@ def add_z(form):
 change_set = set([add_s, add_z])
 
 knife = Paradigm('naif', [('naivz', 0.9), ('naifs', 0.1)])
+leaf = Paradigm('lif', [('livz', 0.9), ('lifs', 0.1)])
 cuff = Paradigm(u'kʌf', [(u'kʌvz', 0.1), (u'kʌfs', 0.9)])
 reef = Paradigm('rif', [('rivz', 0.1), ('rifs', 0.9)])
-giraffe = Paradigm(u'ʤɪɹæf', [(u'ʤɪɹæfs', 0.5), (u'ʤɪɹævz', 0.5)])
+giraffe = Paradigm(u'ʤɪɹæf', [(u'ʤɪɹæfs', 0.4), (u'ʤɪɹævz', 0.6)])
 eighteenth = Paradigm(u'eɪtinθ', [(u'eɪtinθs', 0.8), (u'eɪtinðz', 0.2)])
 waf = Wug('waf')
 
-word_list = [knife, cuff, reef, giraffe, eighteenth]
+word_list = [leaf, reef, giraffe, cuff]
 
-for paradigm in word_list:
-  derivs = map(lambda x: x.form, paradigm.derivatives)
-  print "Analyzing word", paradigm.base.ipa_string()
-  print "Faithfulness constraints:"
-  for con in cons.faithfuls:
-    print con.__name__
-    for form in derivs:
-      print form.ipa_string(), con(paradigm.base, form)
-  print "Markedness constraints:"
-  for con in cons.markeds:
-    print con.__name__
-    for form in derivs:
-      print form.ipa_string(), con(form)
+print "\n\nFaithfulness constraints:".upper()
+for con in cons.faithfuls:
+  print "\n>>>>", con.func.__name__
+  for paradigm in word_list:
+    print "Analyzing paradigm", paradigm.base.ipa_string() 
+    for derivative in paradigm.derivatives:
+      symbol = ' ☞' if derivative.form == paradigm.best_derivative() else '  '
+      score = con.func(paradigm.base, derivative.form)
+      print symbol, derivative.form.ipa_string(), score, '*', derivative.probability
+      con.scores.append(score * derivative.probability)
+  print "Average:", con.avg_score()
 
-# We need to fix syllabification    
-print [ map(lambda x: x.ipa, p) for p in knife.best_derivative().syllables()]
-print knife.best_derivative().sonority()
+print "\n\nMarkedness constraints:".upper()
+for con in cons.markeds:
+  print "\n>>>>", con.func.__name__
+  for paradigm in word_list:
+    print "Analyzing paradigm", paradigm.base.ipa_string() 
+    for derivative in paradigm.derivatives:
+      symbol = ' ☞' if derivative.form == paradigm.best_derivative() else '  '
+      score = con.func(derivative.form)
+      print symbol, derivative.form.ipa_string(), score, '*', derivative.probability
+      con.scores.append(score * derivative.probability)
+  print "Average:", con.avg_score()
+    

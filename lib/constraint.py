@@ -11,7 +11,7 @@ class Constraint:
     self.scores = []
   
   def avg_score(self):
-    return sum(scores) / len(scores)
+    return sum(self.scores) / len(self.scores)
 
   
 # FAITHFULNESS CONSTRAINTS
@@ -34,7 +34,6 @@ def id_voice_root(form1, form2):
 def id_voice_affix(form1, form2):
   return 0
   
-faithfuls = [id_voice_s1, id_voice_stressed, id_voice_root, id_voice_affix]
   
 # MARKEDNESS CONSTRAINTS
 
@@ -51,5 +50,7 @@ def no_long_vowels(form):
 
 def no_long_vowels_before_f(form):
   return 0
-
-markeds = [agree_voice, no_long_vowels, no_long_vowels_before_f]
+  
+# CONSTRAINT LISTS
+faithfuls = map(lambda x: Constraint(x), [id_voice_s1, id_voice_stressed, id_voice_root, id_voice_affix])
+markeds = map(lambda x: Constraint(x), [agree_voice, no_long_vowels, no_long_vowels_before_f])

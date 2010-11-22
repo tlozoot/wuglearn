@@ -20,8 +20,7 @@ class Paradigm:
 class Derivative:
   '''A derivative has a Form and a probability'''
   def __init__(self, form, prob):
-    self.probability = prob
-    self.prob = prob
+    self.probability = self.prob = prob
     self.form = Form(form)
 
 
