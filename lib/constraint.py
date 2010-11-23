@@ -16,22 +16,29 @@ class Constraint:
   
 # FAITHFULNESS CONSTRAINTS
 
-def id_voice_s1(form1, form2):
-  root_s1, deriv_s1 = map(lambda x: x.syllables()[0], [form1, form2])
-  a = alignment.align(root_s1, deriv_s1)[0]
+def id_voice_s1(form1, form2, alignment):
   score = 0
-  for pair in a:
-    if (pair[0].feature('voice') != pair[1].feature('voice')) and pair[0].ipa != '' and pair[1].ipa != '':
-      score += 1
+  syl_1_counter = 0
+  for pair in alignment:
+    if pair[0].ipa != '':    
+      if syl_1_counter < len(form1.syllables()[0]):
+        syl_1_counter += 1
+        if pair[0].feature('voice') != pair[1].feature('voice'):
+          score += 1
   return score
 
-def id_voice_stressed(form1, form2):
+def id_voice_stressed(form1, form2, alignment):
   return 0
   
-def id_voice_root(form1, form2):
-  return 0
+def id_voice_root(form1, form2, alignment):
+  score = 0
+  for pair in alignment:
+    if pair[0].ipa != '':
+      if pair[0].feature('voice') != pair[1].feature('voice'):
+        score += 1
+  return score
 
-def id_voice_affix(form1, form2):
+def id_voice_affix(form1, form2, alignment):
   return 0
   
   

@@ -41,7 +41,7 @@ for con in cons.faithfuls:
     print "Analyzing paradigm", paradigm.base.ipa_string() 
     for derivative in paradigm.derivatives:
       symbol = ' ☞' if derivative.form == paradigm.best_derivative() else '  '
-      score = con.func(paradigm.base, derivative.form)
+      score = con.func(paradigm.base, derivative.form, alignment.align_forms(paradigm.base, derivative.form)[0])
       print symbol, derivative.form.ipa_string(), score, '*', derivative.probability
       con.scores.append(score * derivative.probability)
   print "Average:", con.avg_score()
