@@ -12,19 +12,34 @@
         %th << {{ name }}
       %th << Average
     -for paradigm in word_list:
-      -for derivative in paradigm.derivatives:
-        %tr
-          %th
-            = paradigm.base.to_u()
-          %td
-            = paradigm.symbol(derivative)
-          %td
-            = derivative.form.to_u()
-          %td
-            = derivative.prob
-          -for cons in constraints:
+      %tr
+        %th rowspan=2
+          = paradigm.base.to_u()
+        -set deriv_range = range(paradigm.derivatives|length)
+        -for i in deriv_range:
+          -set derivative = paradigm.derivatives[i]
+          -if (i == 0)
             %td
-              = cons.scores[derivative.form.to_u()]
+              = paradigm.symbol(derivative)
+            %td
+              = derivative.form.to_u()
+            %td
+              = derivative.prob
+            -for cons in constraints:
+              %td
+                = cons.scores[derivative.form.to_u()]
+          -else
+            %tr
+              %td
+                = paradigm.symbol(derivative)
+              %td
+                = derivative.form.to_u()
+              %td
+                = derivative.prob
+              -for cons in constraints:
+                %td
+                  = cons.scores[derivative.form.to_u()]
+          
     %tr
       %th << Averages
       %td
@@ -37,20 +52,36 @@
     %tr  
       %th << Wugs
       -for wug in wug_list:
-        -for derivative in wug.derivatives:
-          %tr
-            %th
-              = wug.base.to_u()
-            %td
-              = wug.symbol(derivative)
-            %td
-              = derivative.to_u()
-            %td
-              = wug.prob(derivative)
-            -for cons in constraints:
+        %tr
+          %th rowspan = 2
+            = wug.base.to_u()
+          -set deriv_range = range(wug.derivatives|length)  
+          -for i in deriv_range:
+            -set derivative = wug.derivatives[i]
+            -if i == 0
               %td
-                = wug.scores[derivative.to_u()][cons.func.__name__]
-            %td
-              = wug.avg_score(derivative)
+                = wug.symbol(derivative)
+              %td
+                = derivative.to_u()
+              %td
+                = wug.prob(derivative)
+              -for cons in constraints:
+                %td
+                  = wug.scores[derivative.to_u()][cons.func.__name__]
+              %td
+                = wug.avg_score(derivative)
+            -else
+              %tr
+                %td
+                  = wug.symbol(derivative)
+                %td
+                  = derivative.to_u()
+                %td
+                  = wug.prob(derivative)
+                -for cons in constraints:
+                  %td
+                    = wug.scores[derivative.to_u()][cons.func.__name__]
+                %td
+                  = wug.avg_score(derivative)
 
      
