@@ -1,0 +1,12 @@
+
+-extends "layout.haml"
+
+-block content:
+  %table
+    %tr
+      %th << Paradigm
+      %th
+      %th << Derivative
+      -for name in constraint_names:
+        %th << {{ name }}
+      %th << Average
