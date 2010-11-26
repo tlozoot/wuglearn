@@ -12,7 +12,7 @@ class Form:
   def segments(self):
     return map(lambda s: Segment(s), list(self.word))
     
-  def ipa_string(self):
+  def to_u(self):
     return ''.join(map(lambda x: x.ipa, self.segments()))
   
   def sonority(self):

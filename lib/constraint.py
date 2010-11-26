@@ -10,7 +10,6 @@ class Constraint:
   def __init__(self, func, constraint_type):
     self.func = func
     self.scores = {}
-    self.wug_scores = {}
     self.type = constraint_type
   
   def avg_score(self):

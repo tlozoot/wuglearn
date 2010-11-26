@@ -17,10 +17,10 @@ import re
 # Also, application-specific code will go here--for example, the rules about how plurals change
 
 def add_s(form):
-  return Form(form.ipa_string() + 's')
+  return Form(form.to_u() + 's')
     
 def add_z(form):
-  return Form(re.sub('f$', 'vz', form.ipa_string()))
+  return Form(re.sub('f$', 'vz', form.to_u()))
   
 change_set = set([add_s, add_z])
 
@@ -38,7 +38,7 @@ wug_list = map(lambda x: Wug(x, change_set), ['waf'])
 evaluate.learn_constraints(word_list)
 
 # Test the wugs!
-evaluate.test_wugs(wug_list, change_set)
+evaluate.test_wugs(wug_list)
 
 # Print out the table
-evaluate.print_table(word_list, wug_list, change_set, cons.faithfuls, cons.markeds)
+evaluate.print_table(word_list, wug_list, cons.faithfuls, cons.markeds)

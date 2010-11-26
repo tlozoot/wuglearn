@@ -13,49 +13,46 @@ def learn_constraints(word_list):
             score = con.func(paradigm.base, derivative.form, a)
           elif con.type == 'markedness':
             score = con.func(derivative.form)          
-          con.scores[derivative.form.ipa_string()] = (score * derivative.probability)
+          con.scores[derivative.form.to_u()] = (score * derivative.probability)
         
 
-def test_wugs(wug_list, change_set):
+def test_wugs(wug_list):
   '''Get some wug plurals out of the constraints'''
   for wug in wug_list:
-    for change in change_set:
-      wug_deriv = change(wug.base)
-      wug.con_scores[wug_deriv.ipa_string()] = {}
-      for a in alignment.align_forms(wug.base, wug_deriv):
+    for derivative in wug.derivatives:
+      for a in alignment.align_forms(wug.base, derivative):
         for con in cons.faithfuls + cons.markeds:
           if con.type == 'faithfulness':
-            score = con.func(wug.base, wug_deriv, a)
+            score = con.func(wug.base, derivative, a)
           elif con.type == 'markedness':
-            score = con.func(wug_deriv)        
-          con.wug_scores[wug_deriv.ipa_string()] = wug.con_scores[wug_deriv.ipa_string()][con.func.__name__] = score * con.avg_score()
+            score = con.func(derivative)        
+          wug.scores[derivative.to_u()][con.func.__name__] = score * con.avg_score()
       
 
-def print_table(word_list, wug_list, change_set, faithfuls, markeds):
+def print_table(word_list, wug_list, faithfuls, markeds):
   '''Debugging code to print the table out'''
   constraints = faithfuls + markeds
   print "Paradigm\t    derivative\tp\t" ,
   print "\t".join(map(lambda x: x.func.__name__, constraints)), "\tAverage"
   for paradigm in word_list:
-    print paradigm.base.ipa_string()
+    print paradigm.base.to_u()
     for derivative in paradigm.derivatives:
       symbol = ' ☞ ' if derivative.form == paradigm.best_derivative() else '   '
-      print "\t\t", symbol, derivative.form.ipa_string(), "\t", derivative.prob, "\t" ,
+      print "\t\t", symbol, derivative.form.to_u(), "\t", derivative.prob, "\t" ,
       for cons in constraints:
-        print cons.scores[derivative.form.ipa_string()], "\t\t", 
+        print cons.scores[derivative.form.to_u()], "\t\t", 
       print
   print "\nAVERAGES\t\t\t\t",
   for cons in constraints:
     print cons.avg_score(), "\t\t",
   print "\n\nWUGS\n"
   for wug in wug_list:
-    print wug.base.ipa_string(),
-    for change in change_set:
-      wug_deriv = change(wug.base)
-      symbol = ' ☞ ' if wug_deriv.ipa_string() == wug.best_derivative() else '   '
-      print "\t\t", symbol, wug_deriv.ipa_string(), "\t", round(wug.prob(wug_deriv), 4), "\t",
+    print wug.base.to_u(),
+    for derivative in wug.derivatives:
+      symbol = ' ☞ ' if derivative == wug.best_derivative() else '   '
+      print "\t\t", symbol, derivative.to_u(), "\t", round(wug.prob(derivative), 4), "\t",
       for cons in constraints:
-        print round(cons.wug_scores[wug_deriv.ipa_string()], 4), "\t\t",
-      print wug.avg_score(wug_deriv.ipa_string())
+        print round(wug.scores[derivative.to_u()][cons.func.__name__], 4), "\t\t",
+      print wug.avg_score(derivative)
   
   
