@@ -5,18 +5,15 @@ import alignment
 
 def learn_constraints(word_list):
   '''Learn the faithfulness and markedness constraints based on a word list'''
-  for con in cons.faithfuls:
+  for con in cons.faithfuls + cons.markeds:
     for paradigm in word_list:
       for derivative in paradigm.derivatives:
         for a in alignment.align_forms(paradigm.base, derivative.form):
-          score = con.func(paradigm.base, derivative.form, a)
+          if con.type == 'faithfulness':
+            score = con.func(paradigm.base, derivative.form, a)
+          elif con.type == 'markedness':
+            score = con.func(derivative.form)          
           con.scores[derivative.form.ipa_string()] = (score * derivative.probability)
-          
-  for con in cons.markeds:
-    for paradigm in word_list:
-      for derivative in paradigm.derivatives:
-        score = con.func(derivative.form)
-        con.scores[derivative.form.ipa_string()] = (score * derivative.probability)
         
 
 def test_wugs(wug_list, change_set):
@@ -32,7 +29,6 @@ def test_wugs(wug_list, change_set):
           elif con.type == 'markedness':
             score = con.func(wug_deriv)        
           con.wug_scores[wug_deriv.ipa_string()] = wug.con_scores[wug_deriv.ipa_string()][con.func.__name__] = score * con.avg_score()
-      
       
 
 def print_table(word_list, wug_list, change_set, faithfuls, markeds):
