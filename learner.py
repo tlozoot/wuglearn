@@ -30,23 +30,17 @@ cuff = Paradigm(u'kʌf', [(u'kʌvz', 0.1), (u'kʌfs', 0.9)])
 reef = Paradigm('rif', [('rivz', 0.4), ('rifs', 0.6)])
 giraffe = Paradigm(u'ʤɪɹæf', [(u'ʤɪɹæfs', 0.55), (u'ʤɪɹævz', 0.45)])
 eighteenth = Paradigm(u'eɪtinθ', [(u'eɪtinθs', 0.8), (u'eɪtinðz', 0.2)])
+
 waf = Wug('waf')
 
 word_list = [leaf, reef, giraffe, cuff, eighteenth]
+wug_list = [waf]
 
-for con in cons.faithfuls:
-  for paradigm in word_list:
-    for derivative in paradigm.derivatives:
-      for a in alignment.align_forms(paradigm.base, derivative.form):
-        score = con.func(paradigm.base, derivative.form, a)
-        con.scores[derivative.form.ipa_string()] = (score * derivative.probability)
+# Learn the constraints!
+cons.learn_constraints(word_list)
 
-for con in cons.markeds:
-  for paradigm in word_list:
-    for derivative in paradigm.derivatives:
-      score = con.func(derivative.form)
-      con.scores[derivative.form.ipa_string()] = (score * derivative.probability)
+# Test the wugs!
+cons.test_wugs(wug_list, change_set)
 
-cons.print_table(word_list, cons.faithfuls, cons.markeds)
-
-    
+# Print out the table
+cons.print_table(word_list, wug_list, change_set, cons.faithfuls, cons.markeds)

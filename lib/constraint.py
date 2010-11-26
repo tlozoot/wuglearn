@@ -10,6 +10,7 @@ class Constraint:
   def __init__(self, func, constraint_type):
     self.func = func
     self.scores = {}
+    self.wug_scores = {}
     self.type = constraint_type
   
   def avg_score(self):
@@ -58,15 +59,16 @@ def agree_voice(form):
       score += 1
   return score
 
-def no_long_vowels(form):
+def no_long_v(form):
   segs = form.segments()
   score = 0
-  for i in range(len(segs)):
-    if segs[i].feature('consonantal')==-1 and (segs[i].feature('tense')==1 or segs[i].feature('low')==1):
-      score += 1
+  for seg in segs:
+    if seg.feature('consonantal') == -1 and seg.ipa != 'w':
+      if seg.feature('tense') == 1 or seg.feature('low') == 1:
+        score += 1
   return score
 
-def no_long_vowels_before_f(form):
+def no_long_v_f(form):
   segs = form.segments()
   score = 0
   seen_V = 0
@@ -82,13 +84,45 @@ def no_long_vowels_before_f(form):
 
 # CONSTRAINT LISTS
 faithfuls = map(lambda x: Constraint(x, 'faithfulness'), [id_voice_s1, id_voice_root, id_voice_affix])
-markeds = map(lambda x: Constraint(x, 'markedness'), [no_long_vowels_before_f, no_long_vowels])
+markeds = map(lambda x: Constraint(x, 'markedness'), [no_long_v_f, no_long_v])
 
-# Debugging code to print the tables out
-def print_table(word_list, faithfuls, markeds):
+def learn_constraints(word_list):
+  '''Learn the faithfulness and markedness constraints based on a word list'''
+  for con in faithfuls:
+    for paradigm in word_list:
+      for derivative in paradigm.derivatives:
+        for a in alignment.align_forms(paradigm.base, derivative.form):
+          score = con.func(paradigm.base, derivative.form, a)
+          con.scores[derivative.form.ipa_string()] = (score * derivative.probability)
+          
+  for con in markeds:
+    for paradigm in word_list:
+      for derivative in paradigm.derivatives:
+        score = con.func(derivative.form)
+        con.scores[derivative.form.ipa_string()] = (score * derivative.probability)
+        
+
+def test_wugs(wug_list, change_set):
+  '''Get some wug plurals out of the constraints'''
+  for wug in wug_list:
+    for change in change_set:
+      wug_deriv = change(wug.base)
+      wug.con_scores[wug_deriv.ipa_string()] = {}
+      for a in alignment.align_forms(wug.base, wug_deriv):
+        for con in faithfuls + markeds:
+          if con.type == 'faithfulness':
+            score = con.func(wug.base, wug_deriv, a)
+          elif con.type == 'markedness':
+            score = con.func(wug_deriv)        
+          con.wug_scores[wug_deriv.ipa_string()] = wug.con_scores[wug_deriv.ipa_string()][con.func.__name__] = score * con.avg_score()
+      
+      
+
+def print_table(word_list, wug_list, change_set, faithfuls, markeds):
+  '''Debugging code to print the table out'''
   constraints = faithfuls + markeds
   print "Paradigm\t    derivative\tp\t" ,
-  print "\t".join(map(lambda x: x.func.__name__, faithfuls + markeds))
+  print "\t".join(map(lambda x: x.func.__name__, constraints)), "\tAverage"
   for paradigm in word_list:
     print paradigm.base.ipa_string()
     for derivative in paradigm.derivatives:
@@ -100,7 +134,16 @@ def print_table(word_list, faithfuls, markeds):
   print "\nAVERAGES\t\t\t\t",
   for cons in constraints:
     print cons.avg_score(), "\t\t",
-  print
+  print "\n\nWUGS\n"
+  for wug in wug_list:
+    print wug.base.ipa_string(),
+    for change in change_set:
+      wug_deriv = change(wug.base)
+      symbol = ' ☞ ' if wug_deriv.ipa_string() == wug.best_derivative() else '   '
+      print "\t\t", symbol, wug_deriv.ipa_string(), "\t", round(wug.prob(wug_deriv), 4), "\t",
+      for cons in constraints:
+        print round(cons.wug_scores[wug_deriv.ipa_string()], 4), "\t\t",
+      print wug.avg_score(wug_deriv.ipa_string())
   
   
   
