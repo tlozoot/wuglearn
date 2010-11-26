@@ -37,10 +37,10 @@ word_list = [leaf, reef, giraffe, cuff, eighteenth]
 wug_list = [waf]
 
 # Learn the constraints!
-cons.learn_constraints(word_list)
+evaluate.learn_constraints(word_list)
 
 # Test the wugs!
-cons.test_wugs(wug_list, change_set)
+evaluate.test_wugs(wug_list, change_set)
 
 # Print out the table
-cons.print_table(word_list, wug_list, change_set, cons.faithfuls, cons.markeds)
+evaluate.print_table(word_list, wug_list, change_set, cons.faithfuls, cons.markeds)
