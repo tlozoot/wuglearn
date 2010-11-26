@@ -3,5 +3,6 @@
 -block content: 
   %h3 << Please select an experiment
   %ul
-    %li
-      = app.link_to(url_for('exp', experiment='plurals'), 'plurals')
+    -for exp in ['plurals']
+      %li
+        = help.link_to(url_for('exp', experiment=exp), exp)
