@@ -34,31 +34,19 @@ waf = Wug('waf')
 
 word_list = [leaf, reef, giraffe, cuff, eighteenth]
 
-print "\n\nFaithfulness constraints:".upper()
 for con in cons.faithfuls:
-  print "\n>>>>", con.func.__name__
   for paradigm in word_list:
-    print "Analyzing paradigm", paradigm.base.ipa_string() 
     for derivative in paradigm.derivatives:
-      symbol = ' ☞' if derivative.form == paradigm.best_derivative() else '  '
       for a in alignment.align_forms(paradigm.base, derivative.form):
         score = con.func(paradigm.base, derivative.form, a)
-        print symbol, derivative.form.ipa_string(), score, '*', derivative.probability
-        con.scores[paradigm.base.ipa_string()] = (score * derivative.probability)
-  print "Average:", con.avg_score()
+        con.scores[derivative.form.ipa_string()] = (score * derivative.probability)
 
-print "\n\nMarkedness constraints:".upper()
 for con in cons.markeds:
-  print "\n>>>>", con.func.__name__
   for paradigm in word_list:
-    print "Analyzing paradigm", paradigm.base.ipa_string() 
     for derivative in paradigm.derivatives:
-      symbol = ' ☞' if derivative.form == paradigm.best_derivative() else '  '
       score = con.func(derivative.form)
-      print symbol, derivative.form.ipa_string(), score, '*', derivative.probability
-      con.scores[paradigm.base.ipa_string()] = (score * derivative.probability)
-  print "Average:", con.avg_score()
+      con.scores[derivative.form.ipa_string()] = (score * derivative.probability)
 
-# print_table(word_list, faithfuls, markeds)
+cons.print_table(word_list, cons.faithfuls, cons.markeds)
 
     

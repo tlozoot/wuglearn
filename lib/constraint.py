@@ -1,4 +1,5 @@
 ##### CONSTRAINTS.PY #####
+# coding=utf-8
 
 # Contains a class definition for Constraint
 # Plus, a bunch of actual constraint functions
@@ -6,9 +7,10 @@
 import alignment
 
 class Constraint:
-  def __init__(self, func):
+  def __init__(self, func, constraint_type):
     self.func = func
     self.scores = {}
+    self.type = constraint_type
   
   def avg_score(self):
     return sum(self.scores.values()) / len(self.scores)
@@ -39,7 +41,11 @@ def id_voice_root(form1, form2, alignment):
   return score
 
 def id_voice_affix(form1, form2, alignment):
-  return 0
+  # Important-- this should NOT be specific to assuming a 'z' affix!
+  # It seems like we'll have to consider passing the affix into these constraint functions...
+  if form2.segments()[-1].feature('voice') == -1:
+    return 1
+  else: return 0
   
   
 # MARKEDNESS CONSTRAINTS
@@ -75,15 +81,26 @@ def no_long_vowels_before_f(form):
 
 
 # CONSTRAINT LISTS
-faithfuls = map(lambda x: Constraint(x), [id_voice_s1, id_voice_stressed, id_voice_root, id_voice_affix])
-markeds = map(lambda x: Constraint(x), [agree_voice, no_long_vowels, no_long_vowels_before_f])
+faithfuls = map(lambda x: Constraint(x, 'faithfulness'), [id_voice_s1, id_voice_root, id_voice_affix])
+markeds = map(lambda x: Constraint(x, 'markedness'), [no_long_vowels_before_f, no_long_vowels])
 
 # Debugging code to print the tables out
 def print_table(word_list, faithfuls, markeds):
-  for i in len(word_list):
-    word = word_list[i]
-    print word.base
-  
+  constraints = faithfuls + markeds
+  print "Paradigm\t    derivative\tp\t" ,
+  print "\t".join(map(lambda x: x.func.__name__, faithfuls + markeds))
+  for paradigm in word_list:
+    print paradigm.base.ipa_string()
+    for derivative in paradigm.derivatives:
+      symbol = ' ☞ ' if derivative.form == paradigm.best_derivative() else '   '
+      print "\t\t", symbol, derivative.form.ipa_string(), "\t", derivative.prob, "\t" ,
+      for cons in constraints:
+        print cons.scores[derivative.form.ipa_string()], "\t\t", 
+      print
+  print "\nAVERAGES\t\t\t\t",
+  for cons in constraints:
+    print cons.avg_score(), "\t\t",
+  print
   
   
   
