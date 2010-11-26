@@ -1,9 +1,13 @@
 from form import Form
 
 class Wug:
-  def __init__(self, ipa):
+  def __init__(self, ipa, change_set):
     self.base = Form(ipa)
+    self.derivatives = map(lambda change: change(self.base), change_set)
     self.con_scores = {}
+    # self.scores = {}
+    # for derivative in self.derivatives:
+      # self.scores[derivative.to_u()] = 
   
   def avg_score(self, derivative):
     return sum(self.con_scores[derivative].values()) / len(self.con_scores[derivative])

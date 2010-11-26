@@ -31,10 +31,8 @@ reef = Paradigm('rif', [('rivz', 0.4), ('rifs', 0.6)])
 giraffe = Paradigm(u'ʤɪɹæf', [(u'ʤɪɹæfs', 0.55), (u'ʤɪɹævz', 0.45)])
 eighteenth = Paradigm(u'eɪtinθ', [(u'eɪtinθs', 0.8), (u'eɪtinðz', 0.2)])
 
-waf = Wug('waf')
-
 word_list = [leaf, reef, giraffe, cuff, eighteenth]
-wug_list = [waf]
+wug_list = map(lambda x: Wug(x, change_set), ['waf'])
 
 # Learn the constraints!
 evaluate.learn_constraints(word_list)
