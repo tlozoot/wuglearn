@@ -8,10 +8,10 @@ import alignment
 class Constraint:
   def __init__(self, func):
     self.func = func
-    self.scores = []
+    self.scores = {}
   
   def avg_score(self):
-    return sum(self.scores) / len(self.scores)
+    return sum(self.scores.values()) / len(self.scores)
 
   
 # FAITHFULNESS CONSTRAINTS
@@ -74,8 +74,16 @@ def no_long_vowels_before_f(form):
   return score
 
 
-
-
 # CONSTRAINT LISTS
 faithfuls = map(lambda x: Constraint(x), [id_voice_s1, id_voice_stressed, id_voice_root, id_voice_affix])
 markeds = map(lambda x: Constraint(x), [agree_voice, no_long_vowels, no_long_vowels_before_f])
+
+# Debugging code to print the tables out
+def print_table(word_list, faithfuls, markeds):
+  for i in len(word_list):
+    word = word_list[i]
+    print word.base
+  
+  
+  
+  

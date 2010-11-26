@@ -27,8 +27,8 @@ change_set = set([add_s, add_z])
 knife = Paradigm('naif', [('naivz', 0.9), ('naifs', 0.1)])
 leaf = Paradigm('lif', [('livz', 0.9), ('lifs', 0.1)])
 cuff = Paradigm(u'kʌf', [(u'kʌvz', 0.1), (u'kʌfs', 0.9)])
-reef = Paradigm('rif', [('rivz', 0.1), ('rifs', 0.9)])
-giraffe = Paradigm(u'ʤɪɹæf', [(u'ʤɪɹæfs', 0.4), (u'ʤɪɹævz', 0.6)])
+reef = Paradigm('rif', [('rivz', 0.4), ('rifs', 0.6)])
+giraffe = Paradigm(u'ʤɪɹæf', [(u'ʤɪɹæfs', 0.55), (u'ʤɪɹævz', 0.45)])
 eighteenth = Paradigm(u'eɪtinθ', [(u'eɪtinθs', 0.8), (u'eɪtinðz', 0.2)])
 waf = Wug('waf')
 
@@ -44,7 +44,7 @@ for con in cons.faithfuls:
       for a in alignment.align_forms(paradigm.base, derivative.form):
         score = con.func(paradigm.base, derivative.form, a)
         print symbol, derivative.form.ipa_string(), score, '*', derivative.probability
-        con.scores.append(score * derivative.probability)
+        con.scores[paradigm.base.ipa_string()] = (score * derivative.probability)
   print "Average:", con.avg_score()
 
 print "\n\nMarkedness constraints:".upper()
@@ -56,6 +56,9 @@ for con in cons.markeds:
       symbol = ' ☞' if derivative.form == paradigm.best_derivative() else '  '
       score = con.func(derivative.form)
       print symbol, derivative.form.ipa_string(), score, '*', derivative.probability
-      con.scores.append(score * derivative.probability)
+      con.scores[paradigm.base.ipa_string()] = (score * derivative.probability)
   print "Average:", con.avg_score()
+
+# print_table(word_list, faithfuls, markeds)
+
     
