@@ -7,7 +7,7 @@
   %td
     = derivative.form.to_u()
   %td
-    = derivative.prob
+    = derivative.prob|round(4)
   -for cons in constraints:
     %td
       = cons.scores[derivative.form.to_u()]
@@ -18,7 +18,7 @@
   %td
     = derivative.to_u()
   %td
-    = wug.prob(derivative)
+    = wug.prob(derivative)|round(4)
   -for cons in constraints:
     %td
       = wug.scores[derivative.to_u()][cons.func.__name__]

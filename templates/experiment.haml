@@ -32,7 +32,7 @@
       -for cons in constraints:
         %td
           %strong
-            = cons.avg_score()
+            = cons.avg_score()|round(4)
     %tr  
       %th << Wugs
       -for wug in wug_list:
