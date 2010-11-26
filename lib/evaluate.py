@@ -1,7 +1,7 @@
 # coding=utf8
 
-import constraint as cons
 import alignment
+import constraint as cons
 
 def learn_constraints(word_list):
   '''Learn the faithfulness and markedness constraints based on a word list'''
@@ -29,9 +29,10 @@ def test_wugs(wug_list):
           wug.scores[derivative.to_u()][con.func.__name__] = score * con.avg_score()
       
 
-def print_table(word_list, wug_list, faithfuls, markeds):
-  '''Debugging code to print the table out'''
-  constraints = faithfuls + markeds
+def print_table(word_list, wug_list):
+  '''Output our sweet table... to be replaced by a web interface'''
+  import constraint as cons # Why is this necessary?
+  constraints = cons.faithfuls + cons.markeds
   print "Paradigm\t    derivative\tp\t" ,
   print "\t".join(map(lambda x: x.func.__name__, constraints)), "\tAverage"
   for paradigm in word_list:

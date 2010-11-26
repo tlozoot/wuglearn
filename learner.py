@@ -2,9 +2,7 @@
 # coding=utf-8
 
 import sys
-# print "Your terminal's encoding:", sys.stdout.encoding
 
-# See what this imports with help(lib)
 from lib import *
 from lib.paradigm import Paradigm
 from lib.form import Form
@@ -34,11 +32,7 @@ eighteenth = Paradigm(u'eɪtinθ', [(u'eɪtinθs', 0.8), (u'eɪtinðz', 0.2)])
 word_list = [leaf, reef, giraffe, cuff, eighteenth]
 wug_list = map(lambda x: Wug(x, change_set), ['waf'])
 
-# Learn the constraints!
+# Learn the constraints, test the wugs, and print the results!
 evaluate.learn_constraints(word_list)
-
-# Test the wugs!
 evaluate.test_wugs(wug_list)
-
-# Print out the table
-evaluate.print_table(word_list, wug_list, cons.faithfuls, cons.markeds)
+evaluate.print_table(word_list, wug_list)
