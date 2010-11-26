@@ -36,3 +36,7 @@ wug_list = map(lambda x: Wug(x, change_set), ['waf'])
 evaluate.learn_constraints(word_list)
 evaluate.test_wugs(wug_list)
 evaluate.print_table(word_list, wug_list)
+
+# Some helpers for server.py
+constraints = cons.faithfuls + cons.markeds
+constraint_names = map(lambda x: x.func.__name__, constraints)
