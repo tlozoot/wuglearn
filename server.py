@@ -18,7 +18,7 @@ import lib.constraint as cons
 import re
 
 
-@app.route('/learner/')
+@app.route('/plurals/')
 def exp():
   def add_s(form):
     return Form(form.to_u() + 's')
@@ -44,7 +44,7 @@ def exp():
   # evaluate.print_table(word_list, wug_list)
   constraints = cons.faithfuls + cons.markeds
   constraint_names = map(lambda x: x.func.__name__, constraints)
-  return render_template('experiment.haml', constraints=constraints, constraint_names=constraint_names)
+  return render_template('experiment.haml', constraints=constraints, constraint_names=constraint_names, word_list=word_list, wug_list=wug_list)
 
 if __name__ == '__main__':
   app.run(debug=True)

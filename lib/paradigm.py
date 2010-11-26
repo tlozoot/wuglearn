@@ -16,6 +16,9 @@ class Paradigm:
     
   def best_derivative(self):
     return max(self.derivatives, key = lambda x: x.prob).form
+  
+  def symbol(self, derivative):
+    return u' ☞ ' if derivative.form == self.best_derivative() else '   '
 
 class Derivative:
   '''A derivative has a Form and a probability'''

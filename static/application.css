@@ -1,3 +1,19 @@
 body {
-    font-family: Georgia, Times, serif;
+    font-family: Times New Roman, serif;
+}
+
+table, th, td {
+    border-top: 1px solid silver;
+    font-size: 1.1em;
+}
+
+th, td {
+    margin: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    padding: 8px;
+}
+
+tr {
+    border: 1px solid silver;
 }

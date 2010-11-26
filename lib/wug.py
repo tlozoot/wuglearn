@@ -1,3 +1,6 @@
+# coding=utf8
+
+
 from form import Form
 
 class Wug:
@@ -28,3 +31,7 @@ class Wug:
         best_deriv = derivative
         best_score = score
     return best_deriv
+    
+  def symbol(self, derivative):
+    return u' ☞ ' if derivative == self.best_derivative() else '   '
+  
