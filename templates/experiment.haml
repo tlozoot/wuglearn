@@ -19,26 +19,10 @@
         -for i in deriv_range:
           -set derivative = paradigm.derivatives[i]
           -if (i == 0)
-            %td
-              = paradigm.symbol(derivative)
-            %td
-              = derivative.form.to_u()
-            %td
-              = derivative.prob
-            -for cons in constraints:
-              %td
-                = cons.scores[derivative.form.to_u()]
+            = help.render_derivative(paradigm, derivative, constraints)
           -else
             %tr
-              %td
-                = paradigm.symbol(derivative)
-              %td
-                = derivative.form.to_u()
-              %td
-                = derivative.prob
-              -for cons in constraints:
-                %td
-                  = cons.scores[derivative.form.to_u()]
+              = help.render_derivative(paradigm, derivative, constraints)
           
     %tr
       %th << Averages
@@ -59,29 +43,7 @@
           -for i in deriv_range:
             -set derivative = wug.derivatives[i]
             -if i == 0
-              %td
-                = wug.symbol(derivative)
-              %td
-                = derivative.to_u()
-              %td
-                = wug.prob(derivative)
-              -for cons in constraints:
-                %td
-                  = wug.scores[derivative.to_u()][cons.func.__name__]
-              %td
-                = wug.avg_score(derivative)
+              = help.render_wug(wug, derivative, constraints)
             -else
               %tr
-                %td
-                  = wug.symbol(derivative)
-                %td
-                  = derivative.to_u()
-                %td
-                  = wug.prob(derivative)
-                -for cons in constraints:
-                  %td
-                    = wug.scores[derivative.to_u()][cons.func.__name__]
-                %td
-                  = wug.avg_score(derivative)
-
-     
+                = help.render_wug(wug, derivative, constraints)
