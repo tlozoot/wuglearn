@@ -1,5 +1,9 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 # coding=utf-8
+
+import sys
+sys.path.append('/Users/jonathan/wuglearn')
+sys.path.append('/usr/local/Cellar/python/2.7/lib/python2.7/site-packages')
 
 from lib import util
 
