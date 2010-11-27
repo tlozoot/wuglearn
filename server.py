@@ -9,10 +9,9 @@ app = Flask(__name__)
 try:
   import local_config
   config = util.hash_object(local_config)
-
 except ImportError:
   config = {
-    'host': '0.0.0.0',
+    'host': 'localhost',
     'debug': True
   }
 
