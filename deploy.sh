@@ -3,8 +3,8 @@
 ssh -T dailyoperations@phonetics.fas.harvard.edu <<\EOI
 
 cd wuglearn/
-git checkout .
-git pull
+/usr/local/git/bin/git checkout .
+/usr/local/git/bin/git pull
 exit
 
 EOI
