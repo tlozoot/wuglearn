@@ -35,7 +35,9 @@ wug_list = map(lambda x: Wug(x, change_set), ['waf'])
 # Learn the constraints, test the wugs, and print the results!
 evaluate.learn_constraints(word_list)
 evaluate.test_wugs(wug_list)
-evaluate.print_table(word_list, wug_list)
+# Only print if we're calling learner directly
+if __name__ == '__main__':
+  evaluate.print_table(word_list, wug_list)
 
 # Some helpers for server.py
 constraints = cons.faithfuls + cons.markeds
