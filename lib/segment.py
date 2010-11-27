@@ -16,8 +16,8 @@ import re
 import vector
 
 def clean_record(rec):
-  '''Strips quotes and whitespace from a string'''
-  return re.sub('"', '', rec).strip()
+    '''Strips quotes and whitespace from a string'''
+    return re.sub('"', '', rec).strip()
 
 # Get the file into a row of columns
 feature_rows = map(lambda row: row.split(','), open(__package__ + '/features.csv').readlines())
@@ -32,61 +32,61 @@ feature_rows.append(blank_row)
 # Initialize the hash of every feature
 FEATURES = {}
 for row in feature_rows:
-  ipa = row.pop(0)     # Your symbol should be the first element of the row
-  item_features = {}   # Create a hash for each feature
-  for i in range(len(row)): item_features[feature_names[i+1]] = int(row[i])
-  FEATURES[unicode(clean_record(ipa), 'utf8')] = item_features
-  
+    ipa = row.pop(0)         # Your symbol should be the first element of the row
+    item_features = {}     # Create a hash for each feature
+    for i in range(len(row)): item_features[feature_names[i+1]] = int(row[i])
+    FEATURES[unicode(clean_record(ipa), 'utf8')] = item_features
+    
 #### PUBLIC FUNCTIONS ####
 
 def get_feature(segment, feature):
-  '''Returns the value of the given feature of the given segment'''
-  return FEATURES[segment][feature]
-  
+    '''Returns the value of the given feature of the given segment'''
+    return FEATURES[segment][feature]
+    
 def get_hash(segment):
-  '''Returns a hash containing every feature of a given segment'''
-  return FEATURES[segment]
+    '''Returns a hash containing every feature of a given segment'''
+    return FEATURES[segment]
 
 def get_array(segment):
-  '''Returns an array of every feature of a given segment, in some standard order'''
-  return map(lambda x: x[1], sorted(FEATURES[segment].items()))
-  
+    '''Returns an array of every feature of a given segment, in some standard order'''
+    return map(lambda x: x[1], sorted(FEATURES[segment].items()))
+    
 def similarity(seg1, seg2):
-  '''The cosine similarity of two segments
-      TODO: Weight importance of features! ŋ~n SHOULD NOT = ŋ~k '''
-  if seg1 and seg2:
-    return vector.cosine_sim(seg1.array(), seg2.array())
+    '''The cosine similarity of two segments
+            TODO: Weight importance of features! ŋ~n SHOULD NOT = ŋ~k '''
+    if seg1 and seg2:
+        return vector.cosine_sim(seg1.array(), seg2.array())
 
 class Segment:
-  '''Some objects, if you like'''
-  
-  def __init__(self, ipa):
-    self.ipa = ipa
+    '''Some objects, if you like'''
     
-  def to_print(self):
-    return self.ipa.encode('utf-8')
-  
-  def hash(self):
-    return get_hash(self.ipa)
-  
-  def array(self):
-    return get_array(self.ipa)
-  
-  def feature(self, feature):
-    return get_feature(self.ipa, feature)
+    def __init__(self, ipa):
+        self.ipa = ipa
+        
+    def to_print(self):
+        return self.ipa.encode('utf-8')
     
-  def similarity(self, segment):
-    return similarity(self.ipa, segment.ipa)
+    def hash(self):
+        return get_hash(self.ipa)
     
-  def sonority(self):
-  	s = 0
-  	if self.feature("voice") == 1: s += 1
-  	if self.feature("continuant") == 1: s += 2
-  	if self.feature("sonorant") == 1: s += 5
-  	if self.feature("consonantal") == -1: 
-  	  s = 10
-  	  if self.feature("high") == -1: s += 1 
-  	  if self.feature("low") == 1: s += 1 
-  	return s
-  	
-  	
+    def array(self):
+        return get_array(self.ipa)
+    
+    def feature(self, feature):
+        return get_feature(self.ipa, feature)
+        
+    def similarity(self, segment):
+        return similarity(self.ipa, segment.ipa)
+        
+    def sonority(self):
+    	s = 0
+    	if self.feature("voice") == 1: s += 1
+    	if self.feature("continuant") == 1: s += 2
+    	if self.feature("sonorant") == 1: s += 5
+    	if self.feature("consonantal") == -1: 
+    	    s = 10
+    	    if self.feature("high") == -1: s += 1 
+    	    if self.feature("low") == 1: s += 1 
+    	return s
+    	
+    	

@@ -15,11 +15,11 @@ import re
 # Also, application-specific code will go here--for example, the rules about how plurals change
 
 def add_s(form):
-  return Form(form.to_u() + 's')
-    
+    return Form(form.to_u() + 's')
+        
 def add_z(form):
-  return Form(re.sub('f$', 'vz', form.to_u()))
-  
+    return Form(re.sub('f$', 'vz', form.to_u()))
+    
 change_set = set([add_s, add_z])
 
 knife = Paradigm('naif', [('naivz', 0.9), ('naifs', 0.1)])
@@ -37,7 +37,7 @@ evaluate.learn_constraints(word_list)
 evaluate.test_wugs(wug_list)
 # Only print if we're calling learner directly
 if __name__ == '__main__':
-  evaluate.print_table(word_list, wug_list)
+    evaluate.print_table(word_list, wug_list)
 
 # Some helpers for server.py
 constraints = cons.faithfuls + cons.markeds

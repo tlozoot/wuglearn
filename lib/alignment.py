@@ -14,31 +14,31 @@ import segment as seg
 ### PUBLIC FUNCTIONS ###
 
 def align(seg_list1, seg_list2):
-  '''Align two segment lists from their left edge
-    Make sure that the empty slots are filled up with None, and that the two forms in order'''
-  longer = seg_list1 if len(seg_list1) > len(seg_list2) else seg_list2
-  zipped = []
-  for i in range(len(longer)):
-    try:
-      zipped.append( (seg_list1[i], seg_list2[i]) )
-    except IndexError:
-      if longer == seg_list1:
-        zipped.append( (seg_list1[i], seg.Segment('')) )
-      else:
-        zipped.append( (seg.Segment(''), seg_list2[i]) )
-  return [zipped]
+    '''Align two segment lists from their left edge
+        Make sure that the empty slots are filled up with None, and that the two forms in order'''
+    longer = seg_list1 if len(seg_list1) > len(seg_list2) else seg_list2
+    zipped = []
+    for i in range(len(longer)):
+        try:
+            zipped.append( (seg_list1[i], seg_list2[i]) )
+        except IndexError:
+            if longer == seg_list1:
+                zipped.append( (seg_list1[i], seg.Segment('')) )
+            else:
+                zipped.append( (seg.Segment(''), seg_list2[i]) )
+    return [zipped]
 
 def align_forms(form1, form2):
-  '''Align two forms directly'''
-  return align(form1.segments(), form2.segments())
-  
+    '''Align two forms directly'''
+    return align(form1.segments(), form2.segments())
+    
 def align_with_ipa(form1, form2):
-  return [ [ tuple(map(lambda s: s.ipa, p)) for p in a] for a in align(form1, form2) ]
-  
+    return [ [ tuple(map(lambda s: s.ipa, p)) for p in a] for a in align(form1, form2) ]
+    
 def align_forms_with_ipa(form1, form2):
-  '''Like align forms, but give back IPA strings instead of segment objects'''
-  return [ [ tuple(map(lambda s: s.ipa, p)) for p in a ] for a in align_forms(form1, form2) ]
+    '''Like align forms, but give back IPA strings instead of segment objects'''
+    return [ [ tuple(map(lambda s: s.ipa, p)) for p in a ] for a in align_forms(form1, form2) ]
 
 def align_forms_with_scores(form1, form2):
-  '''Like align_forms, but give back an array of scores instead'''
-  return [ [ seg.similarity(*p) for p in a ] for a in align_forms(form1, form2) ]
+    '''Like align_forms, but give back an array of scores instead'''
+    return [ [ seg.similarity(*p) for p in a ] for a in align_forms(form1, form2) ]
