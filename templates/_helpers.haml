@@ -21,7 +21,6 @@
     = wug.prob(derivative)|round(4)
   -for cons in constraints:
     %td
-      = wug.scores[derivative.to_u()][cons.func.__name__]
+      = wug.scores[derivative.to_u()][cons.func.__name__]|round(4)
   %td
-    = wug.avg_score(derivative)
-  
+    = wug.avg_score(derivative)|round(4)

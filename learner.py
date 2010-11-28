@@ -30,31 +30,37 @@ wug_list = []
 
 # Read in the voiciness of every item, on the 1-7 scale
 voiciness_dict = dict()
-voiciness_lines = map(lambda x: x.split(','), open('plural_data/real_plural_voiciness.csv').readlines())
+voiciness_lines = util.open_csv('plural_data/real_plural_voiciness.csv')
 for line in voiciness_lines:
     _, word, voiciness = map(lambda x: x.strip(), line)
-    word = re.match('"(.*)"', word).group(1)
+    word = util.strip_quotes(word)
     voiciness_dict[str(word)] = voiciness
 
-# Get the IPA of each word, and add the actual Paradigms to word_list
-plural_ipa_lines = map(lambda x: x.split(','), open('plural_data/real_plurals.csv').readlines())
+# Get the IPA of each real word, and add the actual Paradigms to word_list
+plural_ipa_lines = util.open_csv('plural_data/real_plurals.csv')
 del(plural_ipa_lines[0])
 for line in plural_ipa_lines:
-    ortho, ipa = line[0], unicode(line[1])
-    voiciness = float(voiciness_dict[ortho])
-    derivatives = []
-    for change in change_set:
-        derivative = change(Form(ipa))
-        # This is a hack! Do something nicer later
-        if change.__name__ == 'voiced_pl':
-            score = (voiciness - 1) / 6
-        else:
-            score = 1 - ((voiciness - 1) / 6)
-        derivatives.append((derivative, score))
-    paradigm = Paradigm(ipa, derivatives, ortho=ortho)
-    word_list.append(paradigm)
- 
- 
+    if line[7] == 'stim':
+        ortho, ipa = line[0], unicode(line[1])
+        voiciness = float(voiciness_dict[ortho])
+        derivatives = []
+        for change in change_set:
+            derivative = change(Form(ipa))
+            # This is a hack! Do something nicer later
+            if change.__name__ == 'voiced_pl':
+                score = (voiciness - 1) / 6
+            else:
+                score = 1 - ((voiciness - 1) / 6)
+            derivatives.append((derivative, score))
+        paradigm = Paradigm(ipa, derivatives, ortho=ortho)
+        word_list.append(paradigm) 
+
+# Get the wugs!
+wug_lines = util.open_csv('plural_data/wug_plurals.csv')
+for line in wug_lines:
+    if line[13] == 'stim':
+        wug = unicode(line[4])
+        wug_list.append(Wug(wug, change_set))
 
 # # Sample data--for historical purposes... to be moved...
 # knife = Paradigm('naif', [('naivz', 0.9), ('naifs', 0.1)])

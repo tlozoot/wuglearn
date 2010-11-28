@@ -20,6 +20,15 @@ class Paradigm:
     def best_derivative(self):
         return max(self.derivatives, key = lambda x: x.prob).form
     
+    def voiciness(self):
+        best_deriv = self.best_derivative()
+        best_deriv_prob = max(self.derivatives, key = lambda x: x.prob).prob
+        if best_deriv.segments()[-1].feature('voice') == 1:
+            return best_deriv_prob * 6 + 1
+        else:
+            return (1 - best_deriv_prob) * 6 + 1
+            
+    
     def symbol(self, derivative):
         return u' ☞ ' if derivative.form == self.best_derivative() else '     '
 

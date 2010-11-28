@@ -7,7 +7,6 @@ class Wug:
     def __init__(self, ipa, change_set):
         self.base = Form(ipa)
         self.derivatives = map(lambda change: change(self.base), change_set)
-        # self.con_scores = {}
         self.scores = {}
         for derivative in self.derivatives:
             self.scores[derivative.to_u()] = {}
@@ -19,8 +18,8 @@ class Wug:
         denominator = sum(map(lambda x: self.avg_score(x), self.derivatives))
         return 1 - self.avg_score(derivative) / denominator
     
-    def voiciness(self, derivative):
-        return (6 * self.prob(derivative)) + 1
+    def voiciness(self):
+        return (6 * self.prob(self.best_derivative())) + 1
         
     def best_derivative(self):
         best_deriv = u''
