@@ -4,8 +4,11 @@
 from form import Form
 
 class Wug:
-    def __init__(self, ipa, change_set):
+    def __init__(self, ipa, change_set, ortho=None, human_voiciness=0, mingen_voiciness=0):
         self.base = Form(ipa)
+        self.ortho = ortho
+        self.human_voiciness = human_voiciness
+        self.mingen_voiciness = mingen_voiciness
         self.derivatives = map(lambda change: change(self.base), change_set)
         self.scores = {}
         for derivative in self.derivatives:

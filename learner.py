@@ -30,11 +30,10 @@ wug_list = []
 
 # Read in the voiciness of every item, on the 1-7 scale
 voiciness_dict = dict()
-voiciness_lines = util.open_csv('plural_data/real_plural_voiciness.csv')
+voiciness_lines = util.open_csv('plural_data/all_plural_voiciness.csv')
 for line in voiciness_lines:
     _, word, voiciness = map(lambda x: x.strip(), line)
-    word = util.strip_quotes(word)
-    voiciness_dict[str(word)] = voiciness
+    voiciness_dict[str(word)] = float(voiciness)
 
 # Get the IPA of each real word, and add the actual Paradigms to word_list
 plural_ipa_lines = util.open_csv('plural_data/real_plurals.csv')
@@ -42,7 +41,7 @@ del(plural_ipa_lines[0])
 for line in plural_ipa_lines:
     if line[7] == 'stim':
         ortho, ipa = line[0], unicode(line[1])
-        voiciness = float(voiciness_dict[ortho])
+        voiciness = voiciness_dict[ortho]
         derivatives = []
         for change in change_set:
             derivative = change(Form(ipa))
@@ -55,12 +54,26 @@ for line in plural_ipa_lines:
         paradigm = Paradigm(ipa, derivatives, ortho=ortho)
         word_list.append(paradigm) 
 
+# Get MinGen's voiciness scores
+mingen_voiciness = dict()
+mingen_lines = util.open_sep('plural_data/mingen_voiciness.txt', "\t")
+del(mingen_lines[0])
+for line in mingen_lines:
+    word, voice = line[0], line[6]
+    mingen_voiciness[word] = float(voice)
+
 # Get the wugs!
 wug_lines = util.open_csv('plural_data/wug_plurals.csv')
 for line in wug_lines:
     if line[13] == 'stim':
-        wug = unicode(line[4])
-        wug_list.append(Wug(wug, change_set))
+        ortho, ipa = line[0], unicode(line[4])
+        try:
+            mingen_voice = mingen_voiciness[ortho]
+        except KeyError: 
+            mingen_voice = 0
+        wug_list.append(Wug(ipa, change_set, ortho=ortho,
+                            human_voiciness=voiciness_dict[ortho], 
+                            mingen_voiciness=mingen_voice))
 
 # # Sample data--for historical purposes... to be moved...
 # knife = Paradigm('naif', [('naivz', 0.9), ('naifs', 0.1)])
