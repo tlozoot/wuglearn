@@ -29,31 +29,28 @@ def test_wugs(wug_list):
                     wug.scores[derivative.to_u()][con.func.__name__] = score * con.avg_score()
             
 
-def print_table(word_list, wug_list):
-    '''Output our sweet table... to be replaced by a web interface'''
-    import constraint as cons # Why is this necessary?
+def write_output(word_list, wug_list):
+    '''Output our sweet table... for R, since we have a nice web interface'''
+    import constraint as cons # Why is this necessary??
     constraints = cons.faithfuls + cons.markeds
-    print "Paradigm\t        derivative\tp\t" ,
-    print "\t".join(map(lambda x: x.func.__name__, constraints)), "\tAverage"
+    outfile = open('learner_output.txt', 'w')
+    outfile.write("Real words:\n")
+    outfile.write("Paradigm\tVoiciness\tDerivative\tProb\t")
+    outfile.write("\t".join(map(lambda x: x.func.__name__, constraints)) + "\tAverage\n")
     for paradigm in word_list:
-        print paradigm.base.to_u()
         for derivative in paradigm.derivatives:
-            symbol = ' ☞ ' if derivative.form == paradigm.best_derivative() else '     '
-            print "\t\t", symbol, derivative.form.to_u(), "\t", derivative.prob, "\t" ,
+            outfile.write("\t".join([paradigm.base.to_u(), str(paradigm.voiciness()), derivative.form.to_u(), str(derivative.prob), '']))
             for cons in constraints:
-                print cons.scores[derivative.form.to_u()], "\t\t", 
-            print
-    print "\nAVERAGES\t\t\t\t",
+                outfile.write(str(cons.scores[derivative.form.to_u()]) + "\t") 
+            outfile.write("\n")
+    outfile.write("\nAVERAGES:\t\t\t\t")
     for cons in constraints:
-        print cons.avg_score(), "\t\t",
-    print "\n\nWUGS\n"
+        outfile.write(str(cons.avg_score()) + "\t")
+    outfile.write("\n\nWugs:\n")
     for wug in wug_list:
-        print wug.base.to_u(),
         for derivative in wug.derivatives:
-            symbol = ' ☞ ' if derivative == wug.best_derivative() else '     '
-            print "\t\t", symbol, derivative.to_u(), "\t", round(wug.prob(derivative), 4), "\t",
+            outfile.write("\t".join([wug.base.to_u(), str(wug.voiciness()), derivative.to_u(), str(wug.prob(derivative)), '']))
             for cons in constraints:
-                print round(wug.scores[derivative.to_u()][cons.func.__name__], 4), "\t\t",
-            print wug.avg_score(derivative)
-    
+                outfile.write(str(wug.scores[derivative.to_u()][cons.func.__name__]) + "\t")
+            outfile.write(str(wug.avg_score(derivative)) + "\n")    
     

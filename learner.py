@@ -80,7 +80,7 @@ evaluate.learn_constraints(word_list)
 evaluate.test_wugs(wug_list)
 # Only print if we're calling learner.py directly
 if __name__ == '__main__':
-    evaluate.print_table(word_list, wug_list)
+    evaluate.write_output(word_list, wug_list)
 
 # Some helpers for server.py
 constraints = cons.faithfuls + cons.markeds
