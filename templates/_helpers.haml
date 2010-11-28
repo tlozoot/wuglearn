@@ -10,7 +10,7 @@
     = derivative.prob|round(4)
   -for cons in constraints:
     %td
-      = cons.scores[derivative.form.to_u()]
+      = cons.scores[derivative.form.to_u()]|round(4)
 
 -macro render_wug(wug, derivative, constraints)
   %td

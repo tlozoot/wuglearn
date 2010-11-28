@@ -9,7 +9,10 @@ class Paradigm:
     '''A paradigm consists of a base form and a list of derivatives (accepted as pairs)'''
     '''Also some metadata, such as orthography and frequency'''
     def __init__(self, base, derivatives, ortho=None, freq=None):
-        self.base = Form(base)
+        if base.__class__ == Form:
+            self.base = base
+        else:
+            self.base = Form(base)
         self.ortho = ortho
         self.freq = freq
         self.derivatives = map(lambda d: Derivative(*d), derivatives)
@@ -24,7 +27,10 @@ class Derivative:
     '''A derivative has a Form and a probability'''
     def __init__(self, form, prob):
         self.probability = self.prob = prob
-        self.form = Form(form)
+        if form.__class__ == Form:
+            self.form = form
+        else:
+            self.form = Form(form)
 
 
 # A syllable is a list of segments, with stress

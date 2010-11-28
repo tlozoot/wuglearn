@@ -1,18 +1,17 @@
 SOONER:
 
+	Fix features for ɚ!!
+
 	The learner!
 		- Parsing a text file
-		- Writing some nice constraints
-		- Eval
 		etc...
 
 	Documentation
 		- How does it work in Python?
 
-
-	Function composition
-	
-	Empty string for segments, not None
+	Stats
+		- Compare against humans
+		- Compare against MinGen
 
 LATER:
 
@@ -24,12 +23,9 @@ LATER:
 	Better segment similarity
 		- Weight features
 	
-	Syllabification
-	
-	Segmentation
+	Smart syllabification and segmentation
 	
 	Stats
-		- For analyzing data
 		- For generating losers, weighting constraints
 
 
