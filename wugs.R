@@ -3,7 +3,7 @@ chartdir = "~/Documents/wuglearn/charts/"
 
 # load data
 setwd(datadir)
-wugs = read.csv("learner_output_wugs.txt", sep="\t")
+wugs = read.csv("learner_output.txt", sep="\t")
 #summary(wugs)
 #nrow(wugs)
 
