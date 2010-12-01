@@ -13,7 +13,7 @@ def learn_constraints(word_list):
                         score = con.func(paradigm.base, derivative.form, a)
                     elif con.type == 'markedness':
                         score = con.func(derivative.form)                    
-                    con.scores[derivative.form.to_u()] = (score * derivative.probability)
+                    con.scores[derivative.form.to_u()] = (score * (1 - derivative.probability))
                 
 
 def test_wugs(wug_list):
