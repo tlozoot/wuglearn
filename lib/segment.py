@@ -23,6 +23,9 @@ def clean_record(rec):
 feature_rows = map(lambda row: row.split(','), open(__package__ + '/features.csv').readlines())
 for row in feature_rows: row.pop(0) # get rid of unwanted rows
 
+# delete the first crappy row
+del(feature_rows[0])
+
 # Get the names of the features into an array
 feature_names = map(lambda x: clean_record(x), feature_rows.pop(0))
 blank_row = [0 if i > 0 else '' for i in range(len(feature_names))]
