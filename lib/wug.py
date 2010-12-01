@@ -1,5 +1,6 @@
 # coding=utf8
 
+import re
 
 from form import Form
 
@@ -15,14 +16,18 @@ class Wug:
             self.scores[derivative.to_u()] = {}
     
     def avg_score(self, derivative):
-        return sum(self.scores[derivative.to_u()].values()) / len(self.derivatives)
+        return sum(self.scores[derivative.to_u()].values()) # / len(self.derivatives)
         
     def prob(self, derivative):
         denominator = sum(map(lambda x: self.avg_score(x), self.derivatives))
         return 1 - self.avg_score(derivative) / denominator
     
     def voiciness(self):
-        return (6 * self.prob(self.best_derivative())) + 1
+        voiced_form = ''
+        for derivative in self.derivatives:
+            if re.search('z$', derivative.to_u()):
+                voiced_form = derivative
+        return (6 * self.prob(voiced_form)) + 1
         
     def best_derivative(self):
         best_deriv = u''

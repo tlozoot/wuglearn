@@ -3,4 +3,5 @@
 */*.pyc
 */*/*.pyc
 local_config.py
+log/*.log
 

@@ -29,24 +29,25 @@ def test_wugs(wug_list):
                     wug.scores[derivative.to_u()][con.func.__name__] = score * con.avg_score()
             
 
-def write_output(word_list, wug_list):
+def write_output(word_list, wug_list, wugs_only=True):
     '''Output our sweet table... for R, since we have a nice web interface'''
     import constraint as cons # Why is this necessary??
     constraints = cons.faithfuls + cons.markeds
     outfile = open('learner_output.txt', 'w')
-    outfile.write("Real words:\n")
     outfile.write("Base\tOrtho\tHumanVoice\tMinGenVoice\tPredictedVoice\tDerivative\tProb\t")
     outfile.write("\t".join(map(lambda x: x.func.__name__, constraints)) + "\tAverage\n")
-    for paradigm in word_list:
-        for derivative in paradigm.derivatives:
-            outfile.write("\t".join([paradigm.base.to_u(), str(paradigm.ortho), str(paradigm.voiciness()), '', '', derivative.form.to_u(), str(derivative.prob), '']))
-            for cons in constraints:
-                outfile.write(str(cons.scores[derivative.form.to_u()]) + "\t") 
-            outfile.write("\n")
-    outfile.write("\nAVERAGES:\t\t\t\t")
-    for cons in constraints:
-        outfile.write(str(cons.avg_score()) + "\t")
-    outfile.write("\n\nWugs:\n")
+    if not wugs_only:
+        outfile.write("Real words:\n")
+        for paradigm in word_list:
+            for derivative in paradigm.derivatives:
+                outfile.write("\t".join([paradigm.base.to_u(), str(paradigm.ortho), str(paradigm.voiciness()), '', '', derivative.form.to_u(), str(derivative.prob), '']))
+                for cons in constraints:
+                    outfile.write(str(cons.scores[derivative.form.to_u()]) + "\t") 
+                outfile.write("\n")
+        outfile.write("\nAVERAGES:\t\t\t\t")
+        for cons in constraints:
+            outfile.write(str(cons.avg_score()) + "\t")
+        outfile.write("\n\nWugs:\n")
     for wug in wug_list:
         for derivative in wug.derivatives:
             outfile.write("\t".join([wug.base.to_u(), str(wug.ortho), str(wug.human_voiciness), str(wug.mingen_voiciness), str(wug.voiciness()), derivative.to_u(), str(wug.prob(derivative)), '']))
