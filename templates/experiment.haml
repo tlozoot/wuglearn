@@ -5,7 +5,8 @@
   %table
     %tr
       %th << Paradigm
-      %th << Voiciness
+      %th << HumanVoice
+      %th << PredictedVoice
       %th
       %th << Derivative
       %th << Prob
@@ -18,6 +19,7 @@
           = paradigm.base.to_u()
         %td rowspan=2
           = paradigm.voiciness()|round(4)
+        %td rowspan=2
         -set deriv_range = range(paradigm.derivatives|length)
         -for i in deriv_range:
           -set derivative = paradigm.derivatives[i]
@@ -32,6 +34,7 @@
       %td
       %td
       %td
+      %td
       -for cons in constraints:
         %td
           %strong
@@ -43,6 +46,8 @@
           %th rowspan = 2
             = wug.base.to_u()
           %td rowspan = 2
+            = wug.human_voiciness|round(4)
+          %td rowspan=2
             = wug.voiciness()|round(4)
           -set deriv_range = range(wug.derivatives|length)  
           -for i in deriv_range:
