@@ -2,13 +2,14 @@
 # coding=utf-8
 
 import sys
+import logging
+import re
 
 from lib import *
 from lib.paradigm import Paradigm
 from lib.form import Form
 from lib.wug import Wug
 import lib.constraint as cons
-import re
 
 ##### Change set ######
 
@@ -40,7 +41,7 @@ plural_ipa_lines = util.open_csv('plural_data/real_plurals.csv')
 del(plural_ipa_lines[0])
 for line in plural_ipa_lines:
     if line[7] == 'stim':
-        ortho, ipa = line[0], unicode(line[1])
+        ortho, ipa = line[0], unicode(line[1], 'utf8')
         voiciness = voiciness_dict[ortho]
         derivatives = []
         for change in change_set:
@@ -66,7 +67,7 @@ for line in mingen_lines:
 wug_lines = util.open_csv('plural_data/wug_plurals.csv')
 for line in wug_lines:
     if line[13] == 'stim':
-        ortho, ipa = line[0], unicode(line[4])
+        ortho, ipa = line[0], unicode(line[4], 'utf8')
         try:
             mingen_voice = mingen_voiciness[ortho]
         except KeyError: 

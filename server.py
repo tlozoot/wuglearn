@@ -6,6 +6,8 @@ sys.path.append('/Users/jonathan/wuglearn')
 sys.path.append('/usr/local/Cellar/python/2.7/lib/python2.7/site-packages')
 
 from lib import util
+import logging
+logging.basicConfig(filename='log/server.log', level=logging.DEBUG)
 
 from flask import Flask, url_for, render_template
 app = Flask(__name__)
