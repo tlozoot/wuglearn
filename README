@@ -1,7 +1,7 @@
 WugLearn
 A phonology learning system
 
-Please consult http://bit.ly/bzg43J for more info!
+Please consult http://bit.ly/fyU6Hh for more info!
 
 Let's see if we can't keep this under 1kloc:
 find . | egrep '\.py$' | xargs wc -l
