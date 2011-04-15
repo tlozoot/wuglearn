@@ -1,6 +1,8 @@
 SOONER:
+	
+	Fix learner_output to include size, vowel length, and final consonant columns
 
-	Fix features for ɚ!!
+	# Fix features for ɚ!! # done?
 
 	The learner!
 		- Parsing a text file

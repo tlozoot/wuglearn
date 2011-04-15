@@ -58,6 +58,14 @@ def agree_voice(form):
             score += 1
     return score
 
+def no_final_vcls_fricative(form):
+    segs = form.segments()
+    score = 0
+    final = segs[-1]
+    if final.feature('voice') == -1:
+        return 1
+    return 0
+
 def no_long_v(form):
     segs = form.segments()
     score = 0
@@ -82,5 +90,5 @@ def no_long_v_f(form):
 
 
 # CONSTRAINT LISTS
-faithfuls = map(lambda x: Constraint(x, 'faithfulness'), [id_voice_s1, id_voice_root, id_voice_affix])
-markeds = map(lambda x: Constraint(x, 'markedness'), [no_long_v_f, no_long_v])
+faithfuls = [Constraint(x, 'faithfulness') for x in [id_voice_s1, id_voice_root, id_voice_affix]]
+markeds = [Constraint(x, 'markedness') for x in [no_final_vcls_fricative, no_long_v_f]]
